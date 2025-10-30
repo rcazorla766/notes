@@ -41,7 +41,11 @@ public class NoteService {
         }).orElseThrow(() -> new EntityNotFoundException("Entidad no encontrada con ID: " + id));
     }
 
-    public void borrarPorId(List<Long> ids){
-        noteRepository.deleteAllById(ids);
+    public void borrarNota(Note note) {
+        noteRepository.delete(note);
+    }
+
+    public void borrarPorId(Long id) {
+        noteRepository.deleteById(id);
     }
 }
