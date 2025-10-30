@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("/notes")
 public class NoteController {
 
     private NoteService noteService;
@@ -18,10 +19,16 @@ public class NoteController {
         this.noteService = noteService;
     }
 
+    // Página principal de notas
     @GetMapping
-    public String obtenerTodas(){
-        List<Note> notes =noteService.obtenerTodas();
+    public String mostrarNotas() {
+        // Busca src/main/resources/templates/notes.html
         return "notes";
+    }
+
+    @GetMapping("/newNote")
+    public String crearNota(){
+        return "newNote";
     }
 
 
