@@ -35,6 +35,15 @@ public class NoteController {
         return "newNote";
     }
 
+
+    @GetMapping("/content/{id}")
+    public String mostrarContenidoNota(@PathVariable Long id, Model model){
+        Note note = noteService.obtenerPorId(id)
+                .orElseThrow(() -> new RuntimeException("nota no encontrada"));
+        model.addAttribute("note", note);
+        return "noteContent";
+    }
+
     @PostMapping("/save")
     public String crearNota(Note note){
         noteService.crearNota(note);

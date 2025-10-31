@@ -12,16 +12,17 @@
     <table>
         <thead>
         <tr>
-            <th>ID</th>
             <th>Title</th>
-            <th>content</th>
         </tr>
         </thead>
         <tbody>
             <tr th:each="note :${allNotes}">
-                <td th:text="${note.id}"></td>
                 <td th:text="${note.title}"></td>
-                <td th:text="${note.content}"></td>
+                <td>
+                    <a th:href="@{'/notes/content/' + ${note.id}}">
+                        <button type="button"> Mirar contenido</button>
+                    </a>
+                </td>
                 <td>
                     <a th:href="@{'/notes/delete/' + ${note.id}}">
                         <button type="button">Eliminar</button>
