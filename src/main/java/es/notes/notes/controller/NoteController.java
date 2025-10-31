@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/notes")
@@ -40,6 +41,11 @@ public class NoteController {
         return "redirect:/notes";
     }
 
+    @GetMapping("/delete/{id}")
+    public String borrarNota(@PathVariable Long id){
+        noteService.obtenerPorId(id).ifPresent(aux -> noteService.borrarNota(aux));
+        return "redirect:/notes";
+    }
 
 
     //TODO

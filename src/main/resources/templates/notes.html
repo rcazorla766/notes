@@ -22,6 +22,11 @@
                 <td th:text="${note.id}"></td>
                 <td th:text="${note.title}"></td>
                 <td th:text="${note.content}"></td>
+                <td>
+                    <a th:href="@{'/notes/delete/' + ${note.id}}">
+                        <button type="button">Eliminar</button>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
