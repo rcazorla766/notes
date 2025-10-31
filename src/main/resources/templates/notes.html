@@ -1,14 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>notes</title>
+    <title>Notes</title>
 </head>
-    <h1>Prueba HTML</h1>
+    <h1>Notes</h1>
 <body>
-    <p>ESTE ES EL CUERPO</p>
     <a href="/notes/newNote">
-        <button type="button">Haz clic aquí para nueva nota</button>
+        <button type="button">Click here to create a new note</button>
     </a>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>content</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="note :${allNotes}">
+                <td th:text="${note.id}"></td>
+                <td th:text="${note.title}"></td>
+                <td th:text="${note.content}"></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
