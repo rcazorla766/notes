@@ -29,13 +29,7 @@ public class NoteController {
         return "notes";
     }
 
-    @GetMapping("/newNote")
-    public String mostrarFormularioCrearNota(Model model){
-        model.addAttribute("note", new Note());
-        return "newNote";
-    }
-
-
+    //muestra el contenido de una nota
     @GetMapping("/content/{id}")
     public String mostrarContenidoNota(@PathVariable Long id, Model model){
         Note note = noteService.obtenerPorId(id)
@@ -44,12 +38,21 @@ public class NoteController {
         return "noteContent";
     }
 
+    //formulario para crear nota
+    @GetMapping("/newNote")
+    public String mostrarFormularioCrearNota(Model model){
+        model.addAttribute("note", new Note());
+        return "newNote";
+    }
+
+    //guarda la nota
     @PostMapping("/save")
     public String crearNota(Note note){
         noteService.crearNota(note);
         return "redirect:/notes";
     }
 
+    //borra la nota
     @GetMapping("/delete/{id}")
     public String borrarNota(@PathVariable Long id){
         noteService.obtenerPorId(id).ifPresent(aux -> noteService.borrarNota(aux));
