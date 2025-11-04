@@ -1,5 +1,6 @@
 package es.notes.notes.controller;
 
+import es.notes.notes.exceptions.TareaNotFoundException;
 import es.notes.notes.model.Note;
 import es.notes.notes.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class NoteController {
     @GetMapping("/content/{id}")
     public String mostrarContenidoNota(@PathVariable Long id, Model model){
         Note note = noteService.obtenerPorId(id)
-                .orElseThrow(() -> new RuntimeException("nota no encontrada"));
+                .orElseThrow(() -> new TareaNotFoundException(id));
         model.addAttribute("note", note);
         return "noteContent";
     }
@@ -55,8 +56,14 @@ public class NoteController {
     //borra la nota
     @PostMapping("/delete/{id}")
     public String borrarNota(@PathVariable Long id){
-        noteService.obtenerPorId(id).ifPresent(aux -> noteService.borrarNota(aux));
-        return "redirect:/notes";
+        try{
+            noteService.obtenerPorId(id).ifPresent(aux -> noteService.borrarNota(aux));
+        }catch(TareaNotFoundException e){
+            throw new TareaNotFoundException(id);
+        }finally {
+            return "redirect:/notes";
+        }
+
     }
 
 
