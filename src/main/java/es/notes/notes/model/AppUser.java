@@ -2,6 +2,9 @@ package es.notes.notes.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+import java.util.ArrayList;
+
 @Entity
 public class AppUser {
 
@@ -17,6 +20,10 @@ public class AppUser {
 
     @Column(nullable = false)
     private String role;
+
+    //relacion
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Note> notes = new ArrayList<>();
 
     public AppUser() {}
 
@@ -56,5 +63,13 @@ public class AppUser {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 }

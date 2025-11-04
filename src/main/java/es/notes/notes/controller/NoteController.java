@@ -4,6 +4,7 @@ import es.notes.notes.exceptions.TareaNotFoundException;
 import es.notes.notes.model.Note;
 import es.notes.notes.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -24,16 +25,16 @@ public class NoteController {
 
     // Página principal de notas
     @GetMapping
-    public String mostrarNotas(Model model) {
-        List<Note> allNotes = noteService.obtenerTodas();
+    public String mostrarNotas(Model model, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser) {
+        List<Note> allNotes = noteService.findAllFor(authUser.getUsername());
         model.addAttribute("allNotes", allNotes);
         return "notes";
     }
 
     //muestra el contenido de una nota
     @GetMapping("/content/{id}")
-    public String mostrarContenidoNota(@PathVariable Long id, Model model){
-        Note note = noteService.obtenerPorId(id)
+    public String mostrarContenidoNota(@PathVariable Long id, Model model, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser){
+        Note note = noteService.findByIdFor(id, authUser.getUsername())
                 .orElseThrow(() -> new TareaNotFoundException(id));
         model.addAttribute("note", note);
         return "noteContent";
@@ -48,16 +49,16 @@ public class NoteController {
 
     //guarda la nota
     @PostMapping("/save")
-    public String crearNota(Note note){
-        noteService.crearNota(note);
+    public String crearNota(Note note, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser){
+        noteService.createFor(note, authUser.getUsername());
         return "redirect:/notes";
     }
 
     //borra la nota
     @PostMapping("/delete/{id}")
-    public String borrarNota(@PathVariable Long id){
+    public String borrarNota(@PathVariable Long id, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser){
         try{
-            noteService.obtenerPorId(id).ifPresent(aux -> noteService.borrarNota(aux));
+            noteService.findByIdFor(id, authUser.getUsername()).ifPresent(aux -> noteService.deleteByIdFor(id, authUser.getUsername()));
         }catch(TareaNotFoundException e){
             throw new TareaNotFoundException(id);
         }finally {
