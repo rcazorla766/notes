@@ -53,7 +53,7 @@ public class NoteController {
     }
 
     //borra la nota
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String borrarNota(@PathVariable Long id){
         noteService.obtenerPorId(id).ifPresent(aux -> noteService.borrarNota(aux));
         return "redirect:/notes";
