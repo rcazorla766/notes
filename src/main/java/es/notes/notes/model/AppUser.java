@@ -21,7 +21,10 @@ public class AppUser {
     @Column(nullable = false)
     private String role;
 
-    //relacion
+    // Añado propietario nota. Relación muchos a uno, cada nota pertenece a un AppUser.
+    // Lazy: Para carga perezosa...Al leer una nota, si a priori no necesitas el dueño, la bbdd solo te trae la nota.
+    // Ventajas: rendimiento (menos datos si no necesitas el dueño).
+    // Y por último mapeo la columna FK owner_id en la tala note. Si quisieras obligar a que haya dueño podemos: nullable=false
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Note> notes = new ArrayList<>();
 

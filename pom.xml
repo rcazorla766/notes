@@ -93,8 +93,8 @@
                 <version>11.7.2</version>
                 <configuration>
                     <url>jdbc:mysql://localhost:3306/notes?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=Europe/Madrid</url>
-                    <user>root</user>
-                    <password>AQUI CONTRASEÑA BBDD</password>
+                    <user>${USERNAME_DATABASE}</user>
+                    <password>${PASSWORD_DATABASE}</password>
                     <locations>
                         <location>filesystem:src/main/resources/db/migration</location>
                     </locations>
