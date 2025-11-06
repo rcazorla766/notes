@@ -5,11 +5,11 @@ CREATE TABLE app_user (
     role VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE note (
+CREATE TABLE Note (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255),
     content TEXT,
-    owner_id BIGINT,
+    owner_id BIGINT NOT NULL,
     CONSTRAINT fk_note_owner FOREIGN KEY (owner_id)
         REFERENCES app_user(id)
         ON DELETE CASCADE

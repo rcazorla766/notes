@@ -12,5 +12,9 @@
     <a href="/notes">
         <button type="button">Click here to return</button>
     </a>
+
+    <a th:href="@{/notes/update/{id}(id=${note.id})}">
+        <button type="button">Edit Note</button>
+    </a>
 </body>
 </html>

@@ -47,6 +47,14 @@ public class NoteController {
         return "newNote";
     }
 
+    @GetMapping("/update/{id}")
+    public String modificarNota(@PathVariable Long id, Model model, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser){
+        Note note = noteService.findByIdFor(id, authUser.getUsername())
+                .orElseThrow(() -> new TareaNotFoundException(id));
+        model.addAttribute("note", note);
+        return "updateNote";
+    }
+
     //guarda la nota
     @PostMapping("/save")
     public String crearNota(Note note, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser){
@@ -67,6 +75,11 @@ public class NoteController {
 
     }
 
+    @PostMapping("/updating/{id}")
+    public String modificar(@PathVariable Long id,@ModelAttribute("note") Note note, @AuthenticationPrincipal org.springframework.security.core.userdetails.User authUser){
+        noteService.updateByIdFor(id,note,authUser.getUsername());
+        return "redirect:/notes";
+    }
 
     //TODO
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Entity
+@Table(name = "app_user")
 public class AppUser {
 
     @Id
