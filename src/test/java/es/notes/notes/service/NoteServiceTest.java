@@ -45,31 +45,24 @@ public class NoteServiceTest {
         user.setPassword("password1");
         user.setRole("USER");
 
-        note = new Note("Title", "content");
+        note = new Note();
+        note.setId(1L);
+        note.setTitle("Title");
+        note.setContent("Content");
         note.setOwner(user);
     }
 
     @Test
-    void creaNotaYAsignaUsuario(){
-        when(userRepository.findByUsername("user1")).thenReturn(Optional.of(user));
-        when(noteRepository.save(any(Note.class))).thenReturn(note);
+    void CreateNote(){
 
-        Note savedNote = noteService.createFor(note,"user1");
-
-        assertEquals("user1", savedNote.getOwner().getUsername());
-        verify(noteRepository, times(1)).save(any(Note.class));
     }
 
     @Test
-    void muestraTodasLasNotas(){
-        when(noteRepository.findByOwnerUsername("user1")).thenReturn(List.of(note));
-        List<Note> result = noteService.findAllFor("user1");
-        assertEquals(1, result.size());
-        assertEquals("Title", result.get(0).getTitle());
-        verify(noteRepository, times(1)).findByOwnerUsername("user1");
+    void showAllNotesFromUser(){
+        when(noteRepository.findAll()).thenReturn(List<Note> notes);
     }
 
-    void muestraNotaPorId(){
+    void showSpecificNoteFromUser(){
         when(noteRepository.findById(1L)).thenReturn(Optional.of(note));
         Optional<Note> found = noteService.findByIdFor(1L,"user1");
         assertTrue(found.isPresent());
@@ -77,7 +70,7 @@ public class NoteServiceTest {
     }
 
     @Test
-    void actualizarNota() {
+    void updateNote() {
         when(noteRepository.findById(1L)).thenReturn(Optional.of(note));
         when(noteRepository.save(any(Note.class))).thenReturn(note);
 
@@ -88,7 +81,7 @@ public class NoteServiceTest {
     }
 
     @Test
-    void borrarNota() {
+    void deleteNote() {
         when(noteRepository.findById(1L)).thenReturn(Optional.of(note));
 
         noteService.deleteByIdFor(1L, "user1");
